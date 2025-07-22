@@ -1,6 +1,6 @@
 # QShuf - Artifact Evaluation Guide
 
-This document serves as the artifact evaluation guide for the paper titled "[Your Paper Title]". It provides detailed instructions on how to set up the environment, run the experiments, and reproduce the results presented in the paper.
+This document serves as the artifact evaluation guide for the paper titled "QShuf: A QoS-Aware DL Serving System with Multi-Path Model Shuffling for Heterogeneous Clusters ". It provides detailed instructions on how to set up the environment, run the experiments, and reproduce the results presented in the paper.
 
 The core of this project is a custom scheduling system built on Kubernetes for optimizing deep learning inference tasks on the OpenFaaS serverless framework. The system aims to improve GPU utilization and reduce latency through strategies like dynamic scheduling, resource scaling, and model shuffling (offloading/loading).
 
