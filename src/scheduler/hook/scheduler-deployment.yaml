@@ -1,0 +1,73 @@
+---
+# Permissions for the scheduler to view nodes and pods
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: custom-scheduler-role
+rules:
+- apiGroups: [""]
+  resources: ["nodes", "pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["bindings", "pods/binding"]
+  verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: custom-scheduler-rb
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: custom-scheduler-role
+subjects:
+- kind: ServiceAccount
+  name: openfaas-fn # Use the appropriate ServiceAccount
+  namespace: openfaas-fn
+---
+# The deployment for the scheduler itself
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: custom-scheduler
+  namespace: openfaas-fn
+  labels:
+    app: custom-scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: custom-scheduler
+  template:
+    metadata:
+      labels:
+        app: custom-scheduler
+    spec:
+      containers:
+      - name: scheduler
+        # IMPORTANT: Replace this with the image you pushed in Step 2
+        image: [your-harbor-ip]/[your-project]/custom-scheduler:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8443 # The port your Python HTTPS server listens on
+        volumeMounts:
+        - name: tls-certs
+          mountPath: /etc/webhook/certs
+          readOnly: true
+      volumes:
+      - name: tls-certs
+        secret:
+          secretName: custom-scheduler-tls
+---
+# The service to expose the scheduler to the K8s API server
+apiVersion: v1
+kind: Service
+metadata:
+  name: custom-scheduler
+  namespace: openfaas-fn
+spec:
+  selector:
+    app: custom-scheduler
+  ports:
+  - port: 443
+    targetPort: 8443 # The port specified in the container

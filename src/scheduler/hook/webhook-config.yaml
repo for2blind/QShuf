@@ -1,0 +1,29 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: custom-scheduler-webhook
+webhooks:
+- name: customscheduler.example.com
+  namespaceSelector:
+    matchExpressions:
+    - key: [openfaas.com/function-namespace](https://openfaas.com/function-namespace)
+      operator: In
+      values: ["true"]
+  rules:
+  - apiGroups:   [""]
+    apiVersions: ["v1"]
+    operations:  ["CREATE"]
+    resources:   ["pods"]
+    scope:       "Namespaced"
+  clientConfig:
+    service:
+      namespace: openfaas-fn
+      name: custom-scheduler
+      path: "/schedule" # The endpoint your Python server exposes
+      port: 443
+    # IMPORTANT: The caBundle will be patched in by the command below
+    caBundle: ""
+  admissionReviewVersions: ["v1"]
+  sideEffects: None
+  timeoutSeconds: 5
+  failurePolicy: Fail # Fail pod creation if the webhook is unavailable

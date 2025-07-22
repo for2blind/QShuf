@@ -1,0 +1,246 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://openfaas.example
+
+functions:
+
+  mobilenet:
+    lang: python3-http-dl
+    namespace: openfaas-fn
+    handler: ./models/mobilenet
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 500m
+    limits:
+      cpu: 1000m
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      INDEX_PATH: "/sharing/model/mobilenet/index.py"
+      infer_device: "cuda"
+
+  resnet-18:
+    lang: python3-http-dl
+    namespace: openfaas-fn
+    handler: ./models/resnet-18
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+    limits:
+      cpu: 2000m
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      INDEX_PATH: "/sharing/model/resnet-18/index.py"
+      infer_device: "cuda"
+  
+  resnet-34:
+    lang: python3-http-dl
+    namespace: openfaas-fn
+    handler: ./models/resnet-34
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+    limits:
+      cpu: 2000m
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      INDEX_PATH: "/sharing/model/resnet-34/index.py"
+      infer_device: "cuda"
+
+  resnet-50:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/resnet-50
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 3Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/resnet-50/index.py"
+      infer_device: "cuda"
+
+  resnet-101:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/resnet-101
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 4Gi
+    limits:
+      cpu: 2000m
+      memory: 6Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/resnet-101/index.py"
+      infer_device: "cuda"
+
+  resnet-152:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/resnet-152
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 4Gi
+    limits:
+      cpu: 2000m
+      memory: 6Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/resnet-152/index.py"
+      infer_device: "cuda"
+
+  vggnet-11:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/vggnet-11
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 3Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/vggnet-11/index.py"
+      infer_device: "cuda"
+
+
+  bert:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/bert
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 3Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/bert/index.py"
+      infer_device: "cuda"
+
+  bert-qa:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/bert-qa
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 3Gi
+    limits:
+      cpu: 2000m
+      memory: 4Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/bert-qa/index.py"
+      infer_device: "cuda"
+
+  labse:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/labse
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 4Gi
+    limits:
+      cpu: 2000m
+      memory: 6Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/labse/index.py"
+      infer_device: "cuda"
+  
+  llama2-7b:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/labse
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 4Gi
+    limits:
+      cpu: 2000m
+      memory: 6Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/llama2-7b/index.py"
+      infer_device: "cuda"
+
+  opt-1dot3b:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/opt-1.3b
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 4Gi
+    limits:
+      cpu: 2000m
+      memory: 6Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/opt-1.3b/index.py"
+      infer_device: "cuda"
+  
+  whisper-v2:
+    namespace: openfaas-fn
+    lang: python3-http-dl
+    handler: ./models/labse
+    image: harbor.example/model:1.0
+    requests:
+      cpu: 1000m
+      memory: 4Gi
+    limits:
+      cpu: 2000m
+      memory: 6Gi
+    environment:
+      read_timeout: "5s"
+      write_timeout: "5s"
+      exec_timeout: "5s"
+      debug: "false"
+      INDEX_PATH: "/sharing/model/whisper-large-v2/index.py"
+      infer_device: "cuda"
+
